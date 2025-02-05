@@ -12,3 +12,5 @@ sli/.terraform/providers/registry.terraform.io/instana/instana/3.0.0/linux_amd64
 sli/.terraform/providers/registry.terraform.io/instana/instana/3.0.0/linux_amd64/terraform-provider-instana_v3.0.0
 slo/terraform.tfstate.backup
 slo/terraform.tfstate
+sli/.terraform
+slo/.terraform
