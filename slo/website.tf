@@ -1,4 +1,3 @@
-
 ##
 # web
 resource "instana_website_monitoring_config" "myweb1" {
@@ -24,29 +23,161 @@ resource "instana_slo_config" "website_1" {
       threshold = 13.1
       aggregation = "MEAN"
     }
+  }
+   time_window {
+     fixed {
+       duration = 1
+       duration_unit = "day"
+       start_timestamp = 1698552000000
+     }
+   }
+}
 
-#     event_based_latency {
-#       threshold = 13.1
-#     }
+resource "instana_slo_config" "website_2" {
+  name = "tfslo_website_eventbased_latency_fixed"
+  target = 0.91
+  tags = ["terraform", "web", "eventbased", "latency", "fixed"]
+  entity {
+    website {
+     website_id = instana_website_monitoring_config.myweb1.id
+     beacon_type = "httpRequest"
+     filter_expression = "AND"
+    }
+  }
+  indicator {
+    event_based_latency {
+      threshold = 13.1
+    }
+  }
+   time_window {
+     fixed {
+       duration = 1
+       duration_unit = "day"
+       start_timestamp = 1698552000000
+     }
+   }
+}
 
-#     time_based_availability {
-#       threshold = 14.7
-#       aggregation = "MEAN"
-#     }
+resource "instana_slo_config" "website_3" {
+  name = "tfslo_website_timebased_availability_fixed"
+  target = 0.91
+  tags = ["terraform", "web", "timebased", "availability", "fixed"]
+  entity {
+    website {
+     website_id = instana_website_monitoring_config.myweb1.id
+     beacon_type = "httpRequest"
+     filter_expression = "AND"
+    }
+  }
+  indicator {
+    time_based_availability {
+      threshold = 14.7
+      aggregation = "MEAN"
+    }
+  }
+   time_window {
+     fixed {
+       duration = 1
+       duration_unit = "day"
+       start_timestamp = 1698552000000
+     }
+   }
+}
 
-#    event_based_availability {}
 
-#     custom {
-#       good_event_filter_expression = "call.erroneous@na EQUALS  false"
-#       bad_event_filter_expression = "call.erroneous@na EQUALS  true"
-#     }
+resource "instana_slo_config" "website_4" {
+  name = "tfslo_website_eventbased_availability_fixed"
+  target = 0.91
+  tags = ["terraform", "web", "eventbased", "availability", "fixed"]
+  entity {
+    website {
+     website_id = instana_website_monitoring_config.myweb1.id
+     beacon_type = "httpRequest"
+     filter_expression = "AND"
+    }
+  }
+  indicator {
+   event_based_availability {}
+  }
+   time_window {
+     fixed {
+       duration = 1
+       duration_unit = "day"
+       start_timestamp = 1698552000000
+     }
+   }
+}
 
-#     traffic {
-#       # traffic_type = "all"
-#       traffic_type = "erroneous"
-#       threshold = 14
-#       aggregation = "SUM"
-#     }
+resource "instana_slo_config" "website_5" {
+  name = "tfslo_website_eventbased_custom_fixed"
+  target = 0.91
+  tags = ["terraform", "web", "eventbased", "custom", "fixed"]
+  entity {
+    website {
+     website_id = instana_website_monitoring_config.myweb1.id
+     beacon_type = "httpRequest"
+     filter_expression = "AND"
+    }
+  }
+  indicator {
+    custom {
+      good_event_filter_expression = "call.erroneous@na EQUALS  false"
+      bad_event_filter_expression = "call.erroneous@na EQUALS  true"
+    }
+  }
+   time_window {
+     fixed {
+       duration = 1
+       duration_unit = "day"
+       start_timestamp = 1698552000000
+     }
+   }
+}
+
+resource "instana_slo_config" "website_6" {
+  name = "tfslo_website_traffic_all_fixed"
+  target = 0.91
+  tags = ["terraform", "web", "traffic", "all", "fixed"]
+  entity {
+    website {
+     website_id = instana_website_monitoring_config.myweb1.id
+     beacon_type = "httpRequest"
+     filter_expression = "AND"
+    }
+  }
+  indicator {
+    traffic {
+      traffic_type = "all"
+      threshold = 14
+      aggregation = "SUM"
+    }
+  }
+   time_window {
+     fixed {
+       duration = 1
+       duration_unit = "day"
+       start_timestamp = 1698552000000
+     }
+   }
+}
+
+resource "instana_slo_config" "website_7" {
+  name = "tfslo_website_traffic_erroneous_fixed"
+  target = 0.91
+  tags = ["terraform", "web", "traffic", "erroneous", "fixed"]
+  entity {
+    website {
+     website_id = instana_website_monitoring_config.myweb1.id
+     beacon_type = "httpRequest"
+     filter_expression = "AND"
+    }
+  }
+  indicator {
+    traffic {
+      traffic_type = "erroneous"
+      threshold = 14
+      aggregation = "SUM"
+    }
   }
    time_window {
      fixed {
@@ -59,5 +190,23 @@ resource "instana_slo_config" "website_1" {
 
 output "sloConfigId_web_1" {
   value = instana_slo_config.website_1
+}
+output "sloConfigId_web_2" {
+  value = instana_slo_config.website_2
+}
+output "sloConfigId_web_3" {
+  value = instana_slo_config.website_3
+}
+output "sloConfigId_web_4" {
+  value = instana_slo_config.website_4
+}
+output "sloConfigId_web_5" {
+  value = instana_slo_config.website_5
+}
+output "sloConfigId_web_6" {
+  value = instana_slo_config.website_6
+}
+output "sloConfigId_web_7" {
+  value = instana_slo_config.website_7
 }
 
