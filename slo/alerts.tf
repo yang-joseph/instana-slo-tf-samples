@@ -40,3 +40,109 @@ resource "instana_slo_config" "slo4Alert" {
 }
 
 # Alerts
+## Status
+resource "instana_slo_alert_config" "slo_status_alert" {
+   name = "terraform_slo_status_alert"
+   description = "SLO status below 3%."
+   severity = 10
+   triggering = true
+   alert_type = "status"
+    threshold {
+      operator = ">="
+      value = 0.03
+    }
+    slo_ids = [
+      instana_slo_config.slo_app1.id,
+      instana_slo_config.slo_app2.id,
+      “1234132“
+    ]
+
+    alert_channel_ids = [
+      "12345678"
+    ]
+    time_threshold {
+      expiry = 60000
+      time_window = 60000
+    }
+    custom_payload_fields = [
+      {
+        key = "calls"
+        value = "erroneous"
+      }
+]
+    enabled = true
+    }
+
+## Error Budget
+resource "instana_slo_alert_config" "error_budget_alert" {
+   name = "terraform_error_budget_alert"
+   description = "Consumed >= 3% of the error budget."
+   severity = 10
+   triggering = true
+   alert_type = "error_budget"
+    threshold {
+      operator = ">="
+      value = 0.5
+    }
+    slo_ids = [
+      instana_slo_config.slo_app1.id,
+      instana_slo_config.slo_app2.id,
+      “1234132“
+    ]
+    alert_channel_ids = [
+      "123456789"
+    ]
+    time_threshold {
+      expiry = 60000
+      time_window = 60000
+    }
+    custom_payload_fields = [
+      {
+        key = "calls"
+        value = "erroneous"
+      }
+]
+    enabled = true
+    }
+
+## Burn Rate
+resource "instana_slo_alert_config" "burn_rate_alert" {
+   name = "terraform_burn_rate_alert"
+   description = "Burn rate"
+   severity = 10
+   triggering = true
+   alert_type = "burn_rate"
+   burn_rate_time_windows  {
+      long_time_window {
+        duration = 10
+        duration_type = "hour"
+      }
+      short_time_window {
+        duration = 30
+        duration_type = "minute"
+      }
+   }
+    threshold {
+      operator = ">="
+      value = 1
+    }
+    slo_ids = [
+      instana_slo_config.slo_app1.id,
+      instana_slo_config.slo_app2.id,
+      “1234132“
+    ]
+    alert_channel_ids = [
+      "123456789"
+    ]
+    time_threshold {
+      expiry = 60000
+      time_window = 60000
+    }
+    custom_payload_fields = [
+      {
+        key = "calls"
+        value = "erroneous"
+      }
+]
+    enabled = true
+    }
