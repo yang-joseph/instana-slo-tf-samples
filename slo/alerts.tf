@@ -52,9 +52,9 @@ resource "instana_slo_alert_config" "slo_status_alert" {
       value = 0.03
     }
     slo_ids = [
-      instana_slo_config.slo_app1.id,
-      instana_slo_config.slo_app2.id,
-      “1234132“
+      instana_slo_config.slo4Alert.id,
+      "1234566543",
+      "1234567890"
     ]
 
     alert_channel_ids = [
@@ -85,9 +85,9 @@ resource "instana_slo_alert_config" "error_budget_alert" {
       value = 0.5
     }
     slo_ids = [
-      instana_slo_config.slo_app1.id,
-      instana_slo_config.slo_app2.id,
-      “1234132“
+      instana_slo_config.slo4Alert.id,
+      "1234566543",
+      "1234567890"
     ]
     alert_channel_ids = [
       "123456789"
@@ -127,9 +127,9 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
       value = 1
     }
     slo_ids = [
-      instana_slo_config.slo_app1.id,
-      instana_slo_config.slo_app2.id,
-      “1234132“
+      instana_slo_config.slo4Alert.id,
+      "1234566543",
+      "1234567890"
     ]
     alert_channel_ids = [
       "123456789"
