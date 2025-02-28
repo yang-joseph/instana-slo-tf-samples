@@ -1,26 +1,26 @@
-# Entity
-resource "instana_application_config" "myAllServices4Alerts" {
-  label               = "myAllServices4Alerts"
-  scope               = "INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING" 
-  boundary_scope      = "INBOUND"  
-  tag_filter          = "call.type@na NOT_EMPTY"
+# application
+resource "instana_application_config" "myAllServices" {
+  label          = "myAllServices"
+  scope          = "INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING"
+  boundary_scope = "INBOUND"
+  tag_filter     = "call.type@na NOT_EMPTY"
 }
 
 output "allServicesAppId" {
-  value = instana_application_config.myAllServices4Alerts.id
+  value = instana_application_config.myAllServices.id
 }
 
 
 # SLO
-resource "instana_slo_config" "slo4Alert" {
-  name = "tfslo_app_timebased_latency_fixed"
-  target = 0.91
+resource "instana_slo_config" "app_1" {
+  name = "tfslo_app_timebased_latency_new"
+  target = 0.90
   tags = ["terraform", "app", "timebased", "latency", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices4Alerts.id
+      application_id = instana_application_config.myAllServices.id
       boundary_scope = "ALL"
-      include_internal = false
+      include_internal = true
       include_synthetic = false
       filter_expression = "AND"
     }
@@ -32,117 +32,132 @@ resource "instana_slo_config" "slo4Alert" {
      }
   }
   time_window {
-    rolling {
+    fixed {
       duration = 1
-      duration_unit = "day"
+      duration_unit = "week"
+      start_timestamp = var.fixed_timewindow_start_timestamp
     }
   }
 }
 
-# Alerts
-## Status
-resource "instana_slo_alert_config" "slo_status_alert" {
-   name = "terraform_slo_status_alert"
-   description = "SLO status below 3%."
-   severity = 10
-   triggering = true
-   alert_type = "status"
-    threshold {
-      operator = ">="
-      value = 0.03
-    }
-    slo_ids = [
-      instana_slo_config.slo4Alert.id,
-      "1234566543",
-      "1234567890"
-    ]
+output "slo_app_1" {
+  value = instana_slo_config.app_1.id
+}
 
-    alert_channel_ids = [
-      "12345678"
-    ]
-    time_threshold {
-      expiry = 60000
-      time_window = 60000
-    }
-    custom_payload_fields = [
-      {
-        key = "calls"
-        value = "erroneous"
-      }
-]
-    enabled = true
-    }
+# status_alert
+resource "instana_slo_alert_config" "status_alert" {
+  name         = "terraform_status_alert"
+  description  = "terraform_status_alert testing"
+  severity     = 5
+  triggering   = true
+  alert_type   = "status"
 
-## Error Budget
+  threshold {
+    type = "staticThreshold"
+    operator = ">"
+    value    = 0.3
+  }
+
+  slo_ids           = [instana_slo_config.app_1.id]
+  alert_channel_ids = ["orhurugksjfgh"]
+
+  time_threshold {
+    time_window = 60000
+    expiry      = 60000
+  }
+
+	custom_payload_field {
+		key    = "test1"
+		value  = "foo"
+	}
+
+  enabled  = true
+}
+
+output "terraform_status_alert" {
+  value = instana_slo_alert_config.status_alert.id
+}
+
+# error_budget_alert
 resource "instana_slo_alert_config" "error_budget_alert" {
+
    name = "terraform_error_budget_alert"
    description = "Consumed >= 3% of the error budget."
    severity = 10
    triggering = true
    alert_type = "error_budget"
-    threshold {
-      operator = ">="
-      value = 0.5
-    }
-    slo_ids = [
-      instana_slo_config.slo4Alert.id,
-      "1234566543",
-      "1234567890"
-    ]
-    alert_channel_ids = [
-      "123456789"
-    ]
-    time_threshold {
-      expiry = 60000
-      time_window = 60000
-    }
-    custom_payload_fields = [
-      {
-        key = "calls"
-        value = "erroneous"
-      }
-]
-    enabled = true
+
+  threshold {
+    type = "staticThreshold"
+    operator = ">"
+    value    = 0.3
+  }
+
+  slo_ids           = [instana_slo_config.app_1.id]
+  alert_channel_ids = ["orhurugksjfgh"]
+
+  time_threshold {
+    time_window = 60000
+    expiry      = 60000
+  }
+
+	custom_payload_field {
+		key    = "test"
+		value  = "foo"
+	}
+
+  enabled  = true
+}
+
+output "terraform_error_budget_alert" {
+  value = instana_slo_alert_config.error_budget_alert.id
+}
+
+# burn_rate_alert
+resource "instana_slo_alert_config" "burn_rate_alert" {
+  name        = "terraform_burn_rate_alert"
+  description = "Consumed >= 3% of of the error budget."
+  severity    = 10
+  triggering  = true   
+
+  alert_type  = "burn_rate"
+
+  burn_rate_time_windows {
+    long_time_window {
+      duration     = 2
+      duration_type = "day"
     }
 
-## Burn Rate
-resource "instana_slo_alert_config" "burn_rate_alert" {
-   name = "terraform_burn_rate_alert"
-   description = "Burn rate"
-   severity = 10
-   triggering = true
-   alert_type = "burn_rate"
-   burn_rate_time_windows  {
-      long_time_window {
-        duration = 10
-        duration_type = "hour"
-      }
-      short_time_window {
-        duration = 30
-        duration_type = "minute"
-      }
-   }
-    threshold {
-      operator = ">="
-      value = 1
+    short_time_window {
+      duration     = 30
+      duration_type = "minute"
     }
-    slo_ids = [
-      instana_slo_config.slo4Alert.id,
-      "1234566543",
-      "1234567890"
-    ]
-    alert_channel_ids = [
-      "123456789"
-    ]
-    time_threshold {
-      expiry = 60000
-      time_window = 60000
-    }
-    custom_payload_fields = [
-      {
-        key = "calls"
-        value = "erroneous"
-      }
-]
-    enabled = true
-    }
+  }
+
+  threshold {
+    type     = "staticThreshold"
+    operator = ">"
+    value    = 1
+  }
+
+  slo_ids           = [instana_slo_config.app_1.id]
+  alert_channel_ids = ["orhurggugksjfgh"]
+
+  time_threshold {
+    time_window = 60000
+    expiry      = 60000
+  }
+
+  custom_payload_field {
+    key    = "test"
+    value  = "foo"
+  }
+
+  enabled = true
+}
+
+
+output "terraform_burn_rate_alert" {
+  value = instana_slo_alert_config.burn_rate_alert.id
+}
+
