@@ -1,26 +1,25 @@
-# application
-resource "instana_application_config" "myAllServices" {
-  label          = "myAllServices"
-  scope          = "INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING"
-  boundary_scope = "INBOUND"
-  tag_filter     = "call.type@na NOT_EMPTY"
+# Entity
+resource "instana_application_config" "myAllServices4Alerts" {
+  label               = "myAllServices4Alerts"
+  scope               = "INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING" 
+  boundary_scope      = "INBOUND"  
+  tag_filter          = "call.type@na NOT_EMPTY"
 }
 
 output "allServicesAppId" {
-  value = instana_application_config.myAllServices.id
+  value = instana_application_config.myAllServices4Alerts.id
 }
 
-
-# SLO
-resource "instana_slo_config" "app_1" {
-  name = "tfslo_app_timebased_latency_new"
-  target = 0.90
+# SLO - 1
+resource "instana_slo_config" "slo4Alert_1" {
+  name = "tfslo_app_timebased_latency_fixed"
+  target = 0.91
   tags = ["terraform", "app", "timebased", "latency", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = instana_application_config.myAllServices4Alerts.id
       boundary_scope = "ALL"
-      include_internal = true
+      include_internal = false
       include_synthetic = false
       filter_expression = "AND"
     }
@@ -32,18 +31,45 @@ resource "instana_slo_config" "app_1" {
      }
   }
   time_window {
+    rolling {
+      duration = 1
+      duration_unit = "day"
+    }
+  }
+}
+
+# SLO - 2
+resource "instana_slo_config" "slo4Alert_2" {
+  name = "tfslo_app_traffic_erroneous_fixed"
+  target = 0.91
+  tags = ["terraform", "app", "traffic", "erroneous", "fixed"]
+  entity {
+    application {
+      application_id = instana_application_config.myAllServices.id
+      boundary_scope = "ALL"
+      include_internal = false
+      include_synthetic = false
+      filter_expression = "AND"
+    }
+  }
+  indicator {
+    traffic {
+      traffic_type = "erroneous"
+      threshold = 14
+      aggregation = "SUM"
+    }
+  }
+  time_window {
     fixed {
       duration = 1
-      duration_unit = "week"
+      duration_unit = "day"
       start_timestamp = var.fixed_timewindow_start_timestamp
     }
   }
 }
 
-output "slo_app_1" {
-  value = instana_slo_config.app_1.id
-}
 
+# Alerts
 # status_alert
 resource "instana_slo_alert_config" "status_alert" {
   name         = "terraform_status_alert"
@@ -58,7 +84,7 @@ resource "instana_slo_alert_config" "status_alert" {
     value    = 0.3
   }
 
-  slo_ids           = [instana_slo_config.app_1.id]
+  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
   alert_channel_ids = ["orhurugksjfgh"]
 
   time_threshold {
@@ -93,7 +119,7 @@ resource "instana_slo_alert_config" "error_budget_alert" {
     value    = 0.3
   }
 
-  slo_ids           = [instana_slo_config.app_1.id]
+  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
   alert_channel_ids = ["orhurugksjfgh"]
 
   time_threshold {
@@ -140,7 +166,7 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
     value    = 1
   }
 
-  slo_ids           = [instana_slo_config.app_1.id]
+  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
   alert_channel_ids = ["orhurggugksjfgh"]
 
   time_threshold {
@@ -160,4 +186,3 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
 output "terraform_burn_rate_alert" {
   value = instana_slo_alert_config.burn_rate_alert.id
 }
-
