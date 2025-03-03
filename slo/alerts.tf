@@ -76,26 +76,23 @@ resource "instana_slo_alert_config" "status_alert" {
   description  = "terraform_status_alert testing"
   severity     = 5
   triggering   = true
-  alert_type   = "status"
-
-  threshold {
-    # type     = "staticThreshold"
-    operator = ">"
-    value    = 0.3
-  }
-
   slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
   alert_channel_ids = ["orhurugksjfgh"]
 
+  alert_type   = "status"
+  threshold {
+    operator = ">"
+    value    = 0.3
+  }
   time_threshold {
     warm_up     = 60000
     cool_down   = 60000
   }
 
-	custom_payload_field {
-		key    = "test1"
-		value  = "foo"
-	}
+  custom_payload_field {
+    key    = "test1"
+    value  = "foo"
+  }
 
   enabled  = true
 }
@@ -107,29 +104,27 @@ output "terraform_status_alert" {
 # error_budget_alert
 resource "instana_slo_alert_config" "error_budget_alert" {
 
-   name = "terraform_error_budget_alert"
-   description = "Consumed >= 3% of the error budget."
-   severity = 10
-   triggering = true
-   alert_type = "error_budget"
+  name = "terraform_error_budget_alert"
+  description = "Consumed >= 3% of the error budget."
+  severity = 10
+  triggering = true
+  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
+  alert_channel_ids = ["orhurugksjfgh"]
 
+  alert_type = "error_budget"
   threshold {
     operator = ">"
     value    = 0.3
   }
-
-  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
-  alert_channel_ids = ["orhurugksjfgh"]
-
   time_threshold {
     warm_up     = 60000
     cool_down   = 60000
   }
 
-	custom_payload_field {
-		key    = "test"
-		value  = "foo"
-	}
+  custom_payload_field {
+    key    = "test"
+    value  = "foo"
+  }
 
   enabled  = true
 }
@@ -144,8 +139,18 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
   description = "Consumed >= 3% of of the error budget."
   severity    = 10
   triggering  = true   
+  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
+  alert_channel_ids = ["orhurggugksjfgh"]
 
   alert_type  = "burn_rate"
+  threshold {
+    operator = ">"
+    value    = 1
+  }
+  time_threshold {
+    warm_up     = 60000
+    cool_down   = 60000
+  }
 
   burn_rate_time_windows {
     long_time_window {
@@ -159,18 +164,6 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
     }
   }
 
-  threshold {
-    operator = ">"
-    value    = 1
-  }
-
-  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
-  alert_channel_ids = ["orhurggugksjfgh"]
-
-  time_threshold {
-    warm_up     = 60000
-    cool_down   = 60000
-  }
 
   custom_payload_field {
     key    = "test"
