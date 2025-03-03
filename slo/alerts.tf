@@ -45,7 +45,7 @@ resource "instana_slo_config" "slo4Alert_2" {
   tags = ["terraform", "app", "traffic", "erroneous", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = instana_application_config.myAllServices4Alerts.id
       boundary_scope = "ALL"
       include_internal = false
       include_synthetic = false
@@ -88,8 +88,8 @@ resource "instana_slo_alert_config" "status_alert" {
   alert_channel_ids = ["orhurugksjfgh"]
 
   time_threshold {
-    time_window = 60000
-    expiry      = 60000
+    warm_up     = 60000
+    cool_down   = 60000
   }
 
 	custom_payload_field {
@@ -123,8 +123,8 @@ resource "instana_slo_alert_config" "error_budget_alert" {
   alert_channel_ids = ["orhurugksjfgh"]
 
   time_threshold {
-    time_window = 60000
-    expiry      = 60000
+    warm_up     = 60000
+    cool_down   = 60000
   }
 
 	custom_payload_field {
@@ -150,7 +150,7 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
 
   burn_rate_time_windows {
     long_time_window {
-      duration     = 2
+      duration     = 1
       duration_type = "day"
     }
 
@@ -170,8 +170,8 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
   alert_channel_ids = ["orhurggugksjfgh"]
 
   time_threshold {
-    time_window = 60000
-    expiry      = 60000
+    warm_up     = 60000
+    cool_down   = 60000
   }
 
   custom_payload_field {
@@ -181,7 +181,6 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
 
   enabled = true
 }
-
 
 output "terraform_burn_rate_alert" {
   value = instana_slo_alert_config.burn_rate_alert.id
