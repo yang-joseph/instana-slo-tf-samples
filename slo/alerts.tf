@@ -79,7 +79,7 @@ resource "instana_slo_alert_config" "status_alert" {
   alert_type   = "status"
 
   threshold {
-    type = "staticThreshold"
+    # type     = "staticThreshold"
     operator = ">"
     value    = 0.3
   }
@@ -114,7 +114,6 @@ resource "instana_slo_alert_config" "error_budget_alert" {
    alert_type = "error_budget"
 
   threshold {
-    type = "staticThreshold"
     operator = ">"
     value    = 0.3
   }
@@ -161,7 +160,6 @@ resource "instana_slo_alert_config" "burn_rate_alert" {
   }
 
   threshold {
-    type     = "staticThreshold"
     operator = ">"
     value    = 1
   }
