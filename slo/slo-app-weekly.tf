@@ -2,12 +2,12 @@
 ## 
 # app
 resource "instana_slo_config" "app_w_1" {
-  name = "tfslo_app_timebased_latency_fixed"
+  name = "tfslo_app_weekly_timebased_latency_fixed"
   target = 0.91
   tags = ["terraform", "app", "timebased", "latency", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -31,12 +31,12 @@ resource "instana_slo_config" "app_w_1" {
 }
 
 resource "instana_slo_config" "app_w_2" {
-  name = "tfslo_app_eventbased_latency_fixed"
+  name = "tfslo_app_weekly_eventbased_latency_fixed"
   target = 0.91
   tags = ["terraform", "app", "eventbased", "latency", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -59,12 +59,12 @@ resource "instana_slo_config" "app_w_2" {
 }
 
 resource "instana_slo_config" "app_w_3" {
-  name = "tfslo_app_timebased_availability_fixed"
+  name = "tfslo_app_weekly_timebased_availability_fixed"
   target = 0.91
   tags = ["terraform", "app", "timebased", "availability", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -88,12 +88,12 @@ resource "instana_slo_config" "app_w_3" {
 }
 
 resource "instana_slo_config" "app_w_4" {
-  name = "tfslo_app_eventbased_availability_fixed"
+  name = "tfslo_app_weekly_eventbased_availability_fixed"
   target = 0.91
   tags = ["terraform", "app", "eventbased", "availability", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -114,12 +114,12 @@ resource "instana_slo_config" "app_w_4" {
 }
 
 resource "instana_slo_config" "app_w_5" {
-  name = "tfslo_app_eventbased_custom_fixed"
+  name = "tfslo_app_weekly_eventbased_custom_fixed"
   target = 0.91
   tags = ["terraform", "app", "eventbased", "custom", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -143,12 +143,12 @@ resource "instana_slo_config" "app_w_5" {
 }
 
 resource "instana_slo_config" "app_w_6" {
-  name = "tfslo_app_traffic_all_fixed"
+  name = "tfslo_app_weekly_traffic_all_fixed"
   target = 0.91
   tags = ["terraform", "app", "traffic", "all", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -173,12 +173,12 @@ resource "instana_slo_config" "app_w_6" {
 }
 
 resource "instana_slo_config" "app_w_7" {
-  name = "tfslo_app_traffic_erroneous_fixed"
+  name = "tfslo_app_weekly_traffic_erroneous_fixed"
   target = 0.91
   tags = ["terraform", "app", "traffic", "erroneous", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -204,12 +204,12 @@ resource "instana_slo_config" "app_w_7" {
 
 ##
 resource "instana_slo_config" "app_w_r_1" {
-  name = "tfslo_app_r_timebased_latency_rolling"
+  name = "tfslo_app_weekly_r_timebased_latency_rolling"
   target = 0.91
   tags = ["terraform", "app", "timebased", "latency", "rolling"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -232,12 +232,12 @@ resource "instana_slo_config" "app_w_r_1" {
 }
 
 resource "instana_slo_config" "app_w_r_2" {
-  name = "tfslo_app_r_eventbased_latency_rolling"
+  name = "tfslo_app_weekly_r_eventbased_latency_rolling"
   target = 0.91
   tags = ["terraform", "app", "eventbased", "latency", "rolling"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -259,12 +259,12 @@ resource "instana_slo_config" "app_w_r_2" {
 }
 
 resource "instana_slo_config" "app_w_r_3" {
-  name = "tfslo_app_r_timebased_availability_rolling"
+  name = "tfslo_app_weekly_r_timebased_availability_rolling"
   target = 0.91
   tags = ["terraform", "app", "timebased", "availability", "rolling"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -287,12 +287,12 @@ resource "instana_slo_config" "app_w_r_3" {
 }
 
 resource "instana_slo_config" "app_w_r_4" {
-  name = "tfslo_app_r_eventbased_availability_rolling"
+  name = "tfslo_app_weekly_r_eventbased_availability_rolling"
   target = 0.91
   tags = ["terraform", "app", "eventbased", "availability", "rolling"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -312,12 +312,12 @@ resource "instana_slo_config" "app_w_r_4" {
 }
 
 resource "instana_slo_config" "app_w_r_5" {
-  name = "tfslo_app_r_eventbased_custom_rolling"
+  name = "tfslo_app_weekly_r_eventbased_custom_rolling"
   target = 0.91
   tags = ["terraform", "app", "eventbased", "custom", "rolling"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -340,12 +340,12 @@ resource "instana_slo_config" "app_w_r_5" {
 }
 
 resource "instana_slo_config" "app_w_r_6" {
-  name = "tfslo_app_r_traffic_all_rolling"
+  name = "tfslo_app_weekly_r_traffic_all_rolling"
   target = 0.91
   tags = ["terraform", "app", "traffic", "all", "rolling"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false
@@ -369,12 +369,12 @@ resource "instana_slo_config" "app_w_r_6" {
 }
 
 resource "instana_slo_config" "app_w_r_7" {
-  name = "tfslo_app_r_traffic_erroneous_rolling"
+  name = "tfslo_app_weekly_r_traffic_erroneous_rolling"
   target = 0.91
   tags = ["terraform", "app", "traffic", "erroneous", "rolling"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices.id
+      application_id = var.app_id
       # service_id = "123"
       boundary_scope = "ALL"
       include_internal = false

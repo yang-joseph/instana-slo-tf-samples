@@ -1,14 +1,14 @@
 # Entity
-resource "instana_application_config" "myAllServices4Alerts" {
-  label               = "myAllServices4Alerts"
-  scope               = "INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING" 
-  boundary_scope      = "INBOUND"  
-  tag_filter          = "call.type@na NOT_EMPTY"
-}
-
-output "allServicesAppId" {
-  value = instana_application_config.myAllServices4Alerts.id
-}
+# resource "instana_application_config" "myAllServices4Alerts" {
+#   label               = "myAllServices4Alerts"
+#   scope               = "INCLUDE_IMMEDIATE_DOWNSTREAM_DATABASE_AND_MESSAGING" 
+#   boundary_scope      = "INBOUND"  
+#   tag_filter          = "call.type@na NOT_EMPTY"
+# }
+# 
+# output "allServicesAppId" {
+#   value = var.app_id
+# }
 
 # SLO - 1
 resource "instana_slo_config" "slo4Alert_1" {
@@ -17,7 +17,7 @@ resource "instana_slo_config" "slo4Alert_1" {
   tags = ["terraform", "app", "timebased", "latency", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices4Alerts.id
+      application_id = var.app_id
       boundary_scope = "ALL"
       include_internal = false
       include_synthetic = false
@@ -45,7 +45,7 @@ resource "instana_slo_config" "slo4Alert_2" {
   tags = ["terraform", "app", "traffic", "erroneous", "fixed"]
   entity {
     application {
-      application_id = instana_application_config.myAllServices4Alerts.id
+      application_id = var.app_id
       boundary_scope = "ALL"
       include_internal = false
       include_synthetic = false

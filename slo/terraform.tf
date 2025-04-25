@@ -3,7 +3,7 @@ terraform {
   required_providers {
     instana = {
       source  = "instana/instana"
-      version = "3.0.0"
+      version = "4.0.0"
     }
   }
 }

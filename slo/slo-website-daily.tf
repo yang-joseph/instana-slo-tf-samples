@@ -1,10 +1,11 @@
 ##
 # web
-resource "instana_website_monitoring_config" "myweb1" {
- name = "myweb1"
-}
+# resource "instana_website_monitoring_config" "myweb1" {
+#  name = "myweb1"
+# }
+
 output "websiteId" {
- value = instana_website_monitoring_config.myweb1.id
+ value = var.website_id
 }
 
 resource "instana_slo_config" "website_1" {
@@ -13,7 +14,7 @@ resource "instana_slo_config" "website_1" {
   tags = ["terraform", "web", "timebased", "latency", "fixed"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -39,7 +40,7 @@ resource "instana_slo_config" "website_2" {
   tags = ["terraform", "web", "eventbased", "latency", "fixed"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -64,7 +65,7 @@ resource "instana_slo_config" "website_3" {
   tags = ["terraform", "web", "timebased", "availability", "fixed"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -91,7 +92,7 @@ resource "instana_slo_config" "website_4" {
   tags = ["terraform", "web", "eventbased", "availability", "fixed"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -114,7 +115,7 @@ resource "instana_slo_config" "website_5" {
   tags = ["terraform", "web", "eventbased", "custom", "fixed"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -140,7 +141,7 @@ resource "instana_slo_config" "website_6" {
   tags = ["terraform", "web", "traffic", "all", "fixed"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -167,7 +168,7 @@ resource "instana_slo_config" "website_7" {
   tags = ["terraform", "web", "traffic", "erroneous", "fixed"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -195,7 +196,7 @@ resource "instana_slo_config"  "website_r_1" {
   tags = ["terraform", "web", "timebased", "latency", "rolling"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -220,7 +221,7 @@ resource "instana_slo_config"  "website_r_2" {
   tags = ["terraform", "web", "eventbased", "latency", "rolling"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -244,7 +245,7 @@ resource "instana_slo_config"  "website_r_3" {
   tags = ["terraform", "web", "timebased", "availability", "rolling"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -270,7 +271,7 @@ resource "instana_slo_config"  "website_r_4" {
   tags = ["terraform", "web", "eventbased", "availability", "rolling"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -292,7 +293,7 @@ resource "instana_slo_config"  "website_r_5" {
   tags = ["terraform", "web", "eventbased", "custom", "rolling"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -317,7 +318,7 @@ resource "instana_slo_config"  "website_r_6" {
   tags = ["terraform", "web", "traffic", "all", "rolling"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -343,7 +344,7 @@ resource "instana_slo_config"  "website_r_7" {
   tags = ["terraform", "web", "traffic", "erroneous", "rolling"]
   entity {
     website {
-     website_id = instana_website_monitoring_config.myweb1.id
+     website_id = var.website_id
      beacon_type = "httpRequest"
      filter_expression = "AND"
     }
@@ -363,26 +364,4 @@ resource "instana_slo_config"  "website_r_7" {
    }
 }
 
-
-output "sloConfigId_web_1" {
-  value = instana_slo_config.website_1
-}
-output "sloConfigId_web_2" {
-  value = instana_slo_config.website_2
-}
-output "sloConfigId_web_3" {
-  value = instana_slo_config.website_3
-}
-output "sloConfigId_web_4" {
-  value = instana_slo_config.website_4
-}
-output "sloConfigId_web_5" {
-  value = instana_slo_config.website_5
-}
-output "sloConfigId_web_6" {
-  value = instana_slo_config.website_6
-}
-output "sloConfigId_web_7" {
-  value = instana_slo_config.website_7
-}
 

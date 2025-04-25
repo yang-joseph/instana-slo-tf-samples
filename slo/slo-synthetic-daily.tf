@@ -6,7 +6,7 @@ resource "instana_slo_config" "synthetic_1" {
    entity {
 
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -32,7 +32,7 @@ resource "instana_slo_config" "synthetic_2" {
    tags = ["terraform", "synthetic", "event-based", "latency", "fixed-time-window"]
    entity {
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -59,7 +59,7 @@ resource "instana_slo_config" "synthetic_3" {
    entity {
 
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -87,7 +87,7 @@ resource "instana_slo_config" "synthetic_4" {
    entity {
 
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -110,7 +110,7 @@ resource "instana_slo_config" "synthetic_5" {
   tags = ["terraform", "synthetic", "custom", "fixed-time-window"]
   entity {
      synthetic {
-       synthetic_test_ids = var.synthetic_tests
+       synthetic_test_ids = var.synthetic_test_ids
        filter_expression = "AND"
      } 
   }
@@ -136,7 +136,7 @@ resource "instana_slo_config" "synthetic_6" {
   tags = ["terraform", "synthetic", "traffic", "all", "fixed-time-window"]
   entity {
      synthetic {
-       synthetic_test_ids = var.synthetic_tests
+       synthetic_test_ids = var.synthetic_test_ids
        filter_expression = "AND"
      } 
   }
@@ -162,7 +162,7 @@ resource "instana_slo_config" "synthetic_7" {
   tags = ["terraform", "synthetic", "traffic", "all", "fixed-time-window"]
   entity {
      synthetic {
-       synthetic_test_ids = var.synthetic_tests
+       synthetic_test_ids = var.synthetic_test_ids
        filter_expression = "AND"
      } 
   }
@@ -189,7 +189,7 @@ resource "instana_slo_config" "synthetic_r_1" {
    entity {
 
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -214,7 +214,7 @@ resource "instana_slo_config" "synthetic_r_2" {
    tags = ["terraform", "synthetic", "event-based", "latency", "rolling-time-window"]
    entity {
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -240,7 +240,7 @@ resource "instana_slo_config" "synthetic_r_3" {
    entity {
 
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -267,7 +267,7 @@ resource "instana_slo_config" "synthetic_r_4" {
    entity {
 
       synthetic {
-        synthetic_test_ids = var.synthetic_tests
+        synthetic_test_ids = var.synthetic_test_ids
         filter_expression = "AND"
       } 
    }
@@ -289,7 +289,7 @@ resource "instana_slo_config" "synthetic_r_5" {
   tags = ["terraform", "synthetic", "custom", "rolling-time-window"]
   entity {
      synthetic {
-       synthetic_test_ids = var.synthetic_tests
+       synthetic_test_ids = var.synthetic_test_ids
        filter_expression = "AND"
      } 
   }
@@ -314,7 +314,7 @@ resource "instana_slo_config" "synthetic_r_6" {
   tags = ["terraform", "synthetic", "traffic", "all", "rolling-time-window"]
   entity {
      synthetic {
-       synthetic_test_ids = var.synthetic_tests
+       synthetic_test_ids = var.synthetic_test_ids
        filter_expression = "AND"
      } 
   }
@@ -339,7 +339,7 @@ resource "instana_slo_config" "synthetic_r_7" {
   tags = ["terraform", "synthetic", "traffic", "all", "rolling-time-window"]
   entity {
      synthetic {
-       synthetic_test_ids = var.synthetic_tests
+       synthetic_test_ids = var.synthetic_test_ids
        filter_expression = "AND"
      } 
   }
@@ -358,24 +358,3 @@ resource "instana_slo_config" "synthetic_r_7" {
    }
 }
 
-output "sloConfigIds_sync_1" {
-  value = instana_slo_config.synthetic_1.id
-}
-output "sloConfigIds_sync_2" {
-  value = instana_slo_config.synthetic_2.id
-}
-output "sloConfigIds_sync_3" {
-  value = instana_slo_config.synthetic_3.id
-}
-output "sloConfigIds_sync_4" {
-  value = instana_slo_config.synthetic_4.id
-}
-output "sloConfigIds_sync_5" {
-  value = instana_slo_config.synthetic_5.id
-}
-output "sloConfigIds_sync_6" {
-  value = instana_slo_config.synthetic_6.id
-}
-output "sloConfigIds_sync_7" {
-  value = instana_slo_config.synthetic_7.id
-}
