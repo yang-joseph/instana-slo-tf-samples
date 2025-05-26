@@ -133,46 +133,72 @@ output "terraform_error_budget_alert" {
   value = instana_slo_alert_config.error_budget_alert.id
 }
 
-# burn_rate_alert
-resource "instana_slo_alert_config" "burn_rate_alert" {
-  name        = "terraform_burn_rate_alert"
-  description = "Consumed >= 3% of of the error budget."
-  severity    = 10
-  triggering  = true   
-  slo_ids           = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
-  alert_channel_ids = ["orhurggugksjfgh"]
+# Burn Rate V2 - Single Alerting Window and threshold
+resource "instana_slo_alert_config"
+"burn_rate_alert" {
+    name = "terraform_burn_rate_v2_alert_slo"
+    description = "Burn rate is exceeded"
+    severity = 10
+    triggering = true
+    alert_type = "burn_rate_v2"
+    burn_rate_config {
+        alert_window_type = "SINGLE"
+        duration = 12
+        duration_unit_type = "hour"
 
-  alert_type  = "burn_rate"
-  threshold {
-    operator = ">"
-    value    = 1
-  }
-  time_threshold {
-    warm_up     = 60000
-    cool_down   = 60000
-  }
+        threshold {
+            operator = ">="
+            value = 1
+        }
+    }
+    slo_ids = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
+    alert_channel_ids = ["orhurggugksjfgh "]
 
-  burn_rate_time_windows {
-    long_time_window {
-      duration     = 1
-      duration_type = "day"
+    time_threshold {
+        warm_up = 60000
+        cool_down = 60000
     }
 
-    short_time_window {
-      duration     = 30
-      duration_type = "minute"
-    }
-  }
-
-
-  custom_payload_field {
-    key    = "test"
-    value  = "foo"
-  }
-
-  enabled = true
+    enabled = true
 }
 
-output "terraform_burn_rate_alert" {
-  value = instana_slo_alert_config.burn_rate_alert.id
+
+
+# Burn Rate V2 - Multiple Alerting Windows and respective thresholds
+resource "instana_slo_alert_config"
+"burn_rate_alert" {
+    name = "terraform_burn_rate_v2_alert_slo"
+    description = "Burn rate is exceeded"
+    severity = 10
+    triggering = true
+    alert_type = "burn_rate_v2"
+    burn_rate_config {
+        alert_window_type = "LONG"
+        duration = 12
+        duration_unit_type = "hour"
+
+        threshold {
+            operator = ">="
+            value = 1
+        }
+    }
+    burn_rate_config {
+        alert_window_type = "SHORT"
+        duration = 6
+        duration_unit_type = "hour"
+
+        threshold {
+            operator = ">="
+            value = 1
+        }
+    }
+    slo_ids = [instana_slo_config.slo4Alert_1.id, instana_slo_config.slo4Alert_2.id]
+    alert_channel_ids = ["orhurggugksjfgh "]
+
+    time_threshold {
+        warm_up = 60000
+        cool_down = 60000
+    }
+
+    enabled = true
 }
